@@ -14,13 +14,13 @@ app.use(express.json())
 //Metodos HTTP
 
 //GET productos
-app.get('/api/productos', async (req, res) => {
+app.get('/api/products', async (req, res) => {
     const productos = await productosManager.getProducts()
     res.json(productos)
 })
 
 //get productos por id
-app.get('/api/productos/:id', async (req, res) => {
+app.get('/api/products/:id', async (req, res) => {
     const id = req.params.id
     const producto = await productosManager.getProduct(id)
     if(producto){
@@ -31,7 +31,7 @@ app.get('/api/productos/:id', async (req, res) => {
 })
 
 //POST para agregar producto
-app.post('/api/productos', async (req, res) => {
+app.post('/api/products', async (req, res) => {
     const producto = req.body
     console.log(req.body)
     const newProduct = await productosManager.addProduct(producto)
@@ -43,7 +43,7 @@ app.post('/api/productos', async (req, res) => {
 })
 
 //put para actualizar producto
-app.put('/api/productos/:id', async (req, res) => {
+app.put('/api/products/:id', async (req, res) => {
     const id = req.params.id
     const producto = req.body
     const updatedProduct = await productosManager.updateProduct(id, producto)
@@ -55,7 +55,7 @@ app.put('/api/productos/:id', async (req, res) => {
 })
 
 //delete para borrar producto
-app.delete('/api/productos/:id', async (req, res) => {
+app.delete('/api/products/:id', async (req, res) => {
     const id = req.params.id
     const deletedProduct = await productosManager.deleteProduct(id)
     if(deletedProduct){
