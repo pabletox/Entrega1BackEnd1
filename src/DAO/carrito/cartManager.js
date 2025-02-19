@@ -2,7 +2,7 @@ const fs = require('fs');
 
 class CartManager {
   constructor() {
-    this.path = "./src/archivos/carts.json"
+    this.path = "./src/data/carts.json"
   }
 
   async getcarts() {

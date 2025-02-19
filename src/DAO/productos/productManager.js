@@ -3,7 +3,7 @@ const fs = require('fs');
 class ProductManager {
 
     constructor() {
-        this.path = "./src/archivos/products.json"
+        this.path = "./src/data/products.json"
     }
 
         async getProducts() {
@@ -16,7 +16,7 @@ class ProductManager {
                 }
             }catch(err){
                 console.error("Error al obtener productos: ", err.message)
-                return []
+                return null
             }
         }
 
@@ -24,17 +24,12 @@ class ProductManager {
 
             try{    
                 let productos=await this.getProducts()
-
                 let producto=productos.find(d=>d.id==id)
+                return producto || null;  // Devuelve null si no lo encuentra
 
-                if(producto){
-                    return producto
-                }else{
-                    return null
-                }
             }catch(err){
                 console.error("Error al obtener producto: ", err.message)
-                return []
+                return null
             }
 
         }

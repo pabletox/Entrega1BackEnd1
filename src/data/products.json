@@ -45,18 +45,18 @@
 		]
 	},
 	{
-		"id": 5,
-		"title": "title 3",
-		"description": "description 3",
+		"id": "5",
+		"title": "Prueba de put",
+		"description": "nuevo 3",
 		"code": "code 3",
 		"price": 150,
 		"status": true,
 		"stock": 7,
 		"category": "category 3",
 		"thumbnails": [
-			"thumbnail 1",
-			"thumbnail 2",
-			"thumbnail 3"
+			"nuevo 1",
+			"nuevo 2",
+			"nuevo 3"
 		]
 	}
 ]
