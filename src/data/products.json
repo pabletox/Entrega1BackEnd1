@@ -1,7 +1,7 @@
 [
 	{
 		"id": "2",
-		"title": "Prueba de put",
+		"title": "put cambiado!!!",
 		"description": "nuevo 3",
 		"code": "code 3",
 		"price": 150,
@@ -47,6 +47,36 @@
 	{
 		"id": "5",
 		"title": "Prueba de put",
+		"description": "nuevo 3",
+		"code": "code 3",
+		"price": 150,
+		"status": true,
+		"stock": 7,
+		"category": "category 3",
+		"thumbnails": [
+			"nuevo 1",
+			"nuevo 2",
+			"nuevo 3"
+		]
+	},
+	{
+		"id": 6,
+		"title": "title 6",
+		"description": "nuevo 3",
+		"code": "code 3",
+		"price": 150,
+		"status": true,
+		"stock": 7,
+		"category": "category 3",
+		"thumbnails": [
+			"nuevo 1",
+			"nuevo 2",
+			"nuevo 3"
+		]
+	},
+	{
+		"id": 7,
+		"title": "title 7",
 		"description": "nuevo 3",
 		"code": "code 3",
 		"price": 150,

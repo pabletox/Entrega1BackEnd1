@@ -21,8 +21,8 @@ app.get('/api/products', async (req, res) => {
         res.setHeader('Content-Type','application/json');
         res.json(productos)
     }catch(err){
-        console.error("Error en la API: ", error);
-        res.status(500).json({ error: 'Error interno del servidor' });
+        console.error("Error en la API: ", err);
+        res.status(500).json({ err: 'Error interno del servidor' })
     }
     
 })
@@ -51,8 +51,8 @@ app.get('/api/products/:id', async (req, res) => {
                 res.status(404).json({error: 'Producto no encontrado'})
             }
         }catch(err){
-            console.error("Error en la API: ", error);
-            res.status(500).json({ error: 'Error interno del servidor' });
+            console.error("Error en la API: ", err);
+            res.status(500).json({ err: 'Error interno del servidor' })
         }
     
 })
@@ -61,18 +61,27 @@ app.get('/api/products/:id', async (req, res) => {
 app.post('/api/products', async (req, res) => {
     const producto = req.body
     //ver si existe el producto por title
-    const product = await productosManager.getProducts()
-    const exist = product.find(p => p.title === producto.title)
-    if(exist){
-        
-        return res.status(400).json({error: 'Producto ya existe'})
-    }
-    //sino lo agregamos
-    const newProduct = await productosManager.addProduct(producto)
-    if(newProduct){
-        res.status(201).json(newProduct)
-    }else{
-        res.status(400).json({error: 'No se pudo agregar el producto'})
+    try{
+        const product = await productosManager.getProducts()
+        const exist = product.find(p => p.title === producto.title)
+        if(exist){
+            
+            return res.status(409).json({error: 'Producto ya existe'})
+        }
+        //sino lo agregamos
+        const newProduct = await productosManager.addProduct(producto)
+        if(newProduct){
+            res.status(201).json({
+                message: "Producto agregado",
+                product: newProduct
+            })
+            
+        }else{
+            res.status(400).json({error: 'No se pudo agregar el producto'})
+        }
+    }catch(err){
+        console.error("Error en la API: ", err);
+        res.status(500).json({ err: 'Error interno del servidor' })
     }
 })
 
@@ -84,17 +93,20 @@ app.put('/api/products/:id', async (req, res) => {
     try{
         const product = await productosManager.getProduct(id)
         if(!product){
-            res.status(204).json({error: 'Producto no encontrado'})
-            return
+            res.status(404).json({error: 'No se encontro el producto'})
         }else{
             const updatedProduct = await productosManager.updateProduct(id, producto)
             if(updatedProduct){
-                res.status(200).json(updatedProduct)
+                res.status(200).json({
+                    message: "Producto Actualizado",
+                    product: updatedProduct
+                })
+
             }
         }
     }catch(err){
-        console.error("Error al obtener producto: ", err.message)
-        return []
+        console.error("Error en la API: ", err.message)
+        res.status(500).json({ err: 'Error interno del servidor' })
     }
 
 
@@ -104,11 +116,16 @@ app.put('/api/products/:id', async (req, res) => {
 //delete para borrar producto
 app.delete('/api/products/:id', async (req, res) => {
     const id = req.params.id
-    const deletedProduct = await productosManager.deleteProduct(id)
-    if(deletedProduct){
-        res.json(deletedProduct)
-    }else{
-        res.status(204).json({error: 'Producto no encontrado'})
+    try{
+        const product = await productosManager.getProduct(id)
+        if(!product){
+            return res.status(404).json({error: 'No se encontro el producto'})
+        }
+        const deletedProduct = await productosManager.deleteProduct(id)
+        res.status(200).json({message:'Producto Eliminado'})
+    }catch(err){
+        console.error("Error en la API: ", err.message)
+        res.status(500).json({ err: 'Error interno del servidor' })
     }
 })
 

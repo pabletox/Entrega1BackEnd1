@@ -9,14 +9,15 @@ class ProductManager {
         async getProducts() {
         
             try{
-                if(fs.existsSync(this.path)) {
-                    return JSON.parse(await fs.promises.readFile(this.path,'utf-8'))
-                }else{
-                    return []
+                const data = await fs.promises.readFile(this.path,'utf-8')
+                if (!data.trim()) {
+                    return [];
                 }
+                return JSON.parse(data)
+
             }catch(err){
                 console.error("Error al obtener productos: ", err.message)
-                return null
+                throw new Error("No se pudieron obtener los productos")
             }
         }
 
@@ -29,7 +30,7 @@ class ProductManager {
 
             }catch(err){
                 console.error("Error al obtener producto: ", err.message)
-                return null
+                throw new Error("No se pudieron obtener los productos")
             }
 
         }
@@ -51,7 +52,7 @@ class ProductManager {
                 return newProduct
             }catch(err){
                 console.error("Error al agregar producto: ", err.message)
-                return null
+                throw new Error("No se pudieron agregar los productos")
             }
            
         }
@@ -63,16 +64,13 @@ class ProductManager {
 
                 let index=productos.findIndex(d=>d.id==id)
 
-                if(index!=-1){
                     productos[index]={id, ...product}
                     await fs.promises.writeFile(this.path, JSON.stringify(productos, null, '\t'))
                     return productos[index]
-                }else{
-                    return null
-                }
+                
             }catch(err){
                 console.error("Error al actualizar producto: ", err.message)
-                return null
+                throw new Error("No se pudieron actualizar los productos")
             }
         }
 
